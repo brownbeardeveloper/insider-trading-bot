@@ -1,0 +1,3 @@
+This Discord bot project was created because my friends and I wanted to get the latest information from the insider trading database through a bot. The bot scrapes data from an insider trading website, checks it against the Firestore database to see if there's anything newer than the current data, and then pushes the updates to a Discord channel. It can also post a complete list of insider trading data directly from the Firestore database into the Discord channel.
+
+Additionally, I added a weekday function that checks the day of the week for a given date in the format YYYY-MM-DD. We usually mention dates when we meet up, but it can be hard to figure out the weekday just by looking at the date.

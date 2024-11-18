@@ -6,7 +6,7 @@ class WebScraper:
     def __init__(self, website: str = "https://marknadssok.fi.se") -> None:
         self.website = website
 
-    def load_data_list_from_rows(self, content_rows, data_list):
+    def _load_data_list_from_rows(self, content_rows, data_list):
         """
         Extracts information from HTML elements in each row and adds it to the data_list.
 
@@ -60,7 +60,7 @@ class WebScraper:
                     }
                 )
 
-    def get_all_tr_elements_from_website(self, company: str) -> list[str]:
+    def _get_all_tr_elements_from_website(self, company: str) -> list[str]:
         page_number = 1
         URL = f"{self.website}/Publiceringsklient/sv-SE/Search/Search?Utgivare={company}&Page={page_number}"
         page = requests.get(URL)
@@ -68,8 +68,17 @@ class WebScraper:
         content_rows = soup.findAll("tr")
         return content_rows
 
-    def start(self):
+    def fetch_all_insider_data(self, company: str) -> list[any]:
         data_list = []
-        content_rows = self.get_all_tr_elements_from_website(company="nibe")
-        self.load_data_list_from_rows(data_list=data_list, content_rows=content_rows)
-        print(data_list)  # result
+        content_rows = self._get_all_tr_elements_from_website(company=company)
+        self._load_data_list_from_rows(data_list=data_list, content_rows=content_rows)
+        return data_list
+
+    def fetch_latest_insider_data(self, company: str) -> None:
+        pass
+
+
+if __name__ == "__main__":
+    web_scraper = WebScraper()
+    data_list = web_scraper.fetch_all_insider_data("nibe")
+    print(data_list)  # result

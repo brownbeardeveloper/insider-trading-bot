@@ -3,11 +3,13 @@ from dotenv import load_dotenv
 from discord import Intents, Message
 from discord.ext.commands import Bot
 from datetime import datetime
+from utils.web_scraping import WebScraper
 
 
 class DiscordBot:
     def __init__(self, bot_token: str):
         self.bot_token = bot_token
+        self.web_scraper = WebScraper()
 
     def run(self):
         # Set up intents for the bot
@@ -32,7 +34,7 @@ class DiscordBot:
                     # Verify bot's permission to send messages
                     if channel.permissions_for(guild.me).send_messages:
                         await channel.send(
-                            "Tired of this manual server madness! Let's get our own and unleash the chaos! Who's with me?"
+                            "Alright, enough with the chaos. I'm here to bring some order... or add to the madness. Your call. Type !help if you dare."
                         )
                         break
 
@@ -50,7 +52,9 @@ class DiscordBot:
                     if action == "all":  # Fetch entire list of insider trading data
                         company_name = args[2]
                         # Placeholder function
-                        insider_data = fetch_all_insider_data(company_name)
+                        insider_data = self.web_scraper.fetch_all_insider_data(
+                            company_name
+                        )
                         await message.channel.send(
                             f"Insider trading data for {company_name}:\n{insider_data}"
                         )
@@ -58,7 +62,9 @@ class DiscordBot:
                     elif action == "latest":  # Fetch the latest 5 insider trading data
                         company_name = args[2]
                         # Placeholder function
-                        latest_data = fetch_latest_insider_data(company_name, 5)
+                        latest_data = self.web_scraperfetch_latest_insider_data(
+                            company_name, 5
+                        )
                         await message.channel.send(
                             f"Latest 5 insider trading entries for {company_name}:\n{latest_data}"
                         )
